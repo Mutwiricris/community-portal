@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Algorithm API Test</title>
+</head>
+<body>
+    <h1>Algorithm API Test</h1>
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testInitialize()">Test Initialize</button>
+    <div id="result"></div>
+
+    <script>
+        async function testConnection() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Testing connection...';
+            
+            try {
+                const response = await fetch('https://thomasngomono.pythonanywhere.com/api/algorithm/test-connection', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<h2>Connection Test Result:</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `<h2>Connection Error:</h2><pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testInitialize() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Testing initialize...';
+            
+            try {
+                const response = await fetch('https://thomasngomono.pythonanywhere.com/api/algorithm/initialize-tournament', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        tournamentId: 'test123',
+                        special: false,
+                        level: 'community',
+                        schedulingPreference: 'weekend'
+                    })
+                });
+                
+                const data = await response.json();
+                result.innerHTML = `<h2>Initialize Test Result:</h2><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `<h2>Initialize Error:</h2><pre>${error.message}</pre>`;
+            }
+        }
+    </script>
+</body>
+</html>
